@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: cursive;background-color:aquamarine
+        }
+        .question-container {
+            margin-bottom: 20px;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 5px;
+        }
+h1{color:red}
+    </style>
+</head>
+<body>
+<h1 align="center">Quiz</h1>
+    <div id="quiz-container">
+        <!-- Questions will be injected here -->
+    </div>
+    <button id="submit-btn">Submit</button>
+    <div id="result"></div>
+
+    <script>
+        // Define the 20 questions
+        const questions = [
+            { question: "What is the chemical symbol for water?", answers: ["H2O", "O2", "CO2", "NaCl"], correct: "H2O" },
+            { question: "What planet is known as the Red Planet?", answers: ["Earth", "Mars", "Jupiter", "Saturn"], correct: "Mars" },
+            { question: "What gas do plants use for photosynthesis?", answers: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"], correct: "Carbon Dioxide" },
+            { question: "What is the largest organ in the human body?", answers: ["Heart", "Liver", "Skin", "Lung"], correct: "Skin" },
+            { question: "What is the boiling point of water in degrees Celsius?", answers: ["0°C", "50°C", "100°C", "150°C"], correct: "100°C" },
+            { question: "What element is represented by the symbol 'O'?", answers: ["Oxygen", "Gold", "Silver", "Zinc"], correct: "Oxygen" },
+            { question: "What is the chemical formula for table salt?", answers: ["H2O", "NaCl", "CO2", "CH4"], correct: "NaCl" },
+            { question: "Who is known as the father of modern physics?", answers: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"], correct: "Albert Einstein" },
+            { question: "What planet is closest to the Sun?", answers: ["Venus", "Earth", "Mars", "Mercury"], correct: "Mercury" },
+            { question: "What is the process by which plants make their food?", answers: ["Respiration", "Photosynthesis", "Fermentation", "Digestion"], correct: "Photosynthesis" },
+            { question: "What is the smallest unit of an element?", answers: ["Molecule", "Atom", "Compound", "Cell"], correct: "Atom" },
+            { question: "What do you call the amount of matter in an object?", answers: ["Volume", "Mass", "Density", "Weight"], correct: "Mass" },
+            { question: "Which planet is known for its prominent ring system?", answers: ["Jupiter", "Saturn", "Uranus", "Neptune"], correct: "Saturn" },
+            { question: "What force keeps us on the ground?", answers: ["Friction", "Gravity", "Magnetism", "Tension"], correct: "Gravity" },
+            { question: "What is the chemical symbol for gold?", answers: ["Au", "Ag", "Fe", "Pb"], correct: "Au" },
+            { question: "What part of the cell contains the genetic material?", answers: ["Cytoplasm", "Mitochondria", "Nucleus", "Ribosome"], correct: "Nucleus" },
+            { question: "What is the hardest natural substance on Earth?", answers: ["Gold", "Iron", "Diamond", "Platinum"], correct: "Diamond" },
+            { question: "Which organ in the human body is responsible for pumping blood?", answers: ["Brain", "Liver", "Stomach", "Heart"], correct: "Heart" },
+            { question: "What is the process by which a liquid turns into a gas?", answers: ["Condensation", "Evaporation", "Freezing", "Melting"], correct: "Evaporation" },
+            { question: "What is the chemical formula for carbon dioxide?", answers: ["CO2", "CO", "C2H6O", "CH4"], correct: "CO2" },
+            { question: "What type of rock is formed from lava?", answers: ["Sedimentary", "Metamorphic", "Igneous", "Limestone"], correct: "Igneous" },
+            { question: "What is the primary source of energy for Earth?", answers: ["Moon", "Wind", "Sun", "Ocean"], correct: "Sun" }
+        ];
+
+        // Function to generate the quiz
+        function generateQuiz() {
+            const container = document.getElementById('quiz-container');
+            questions.forEach((q, index) => {
+                // Create question container
+                const questionContainer = document.createElement('div');
+                questionContainer.classList.add('question-container');
+                
+                // Create question text
+                const questionText = document.createElement('div');
+                questionText.classList.add('question');
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionContainer.appendChild(questionText);
+
+                // Create answer options
+                const answersContainer = document.createElement('div');
+                answersContainer.classList.add('answers');
+                q.answers.forEach(answer => {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${index}`;
+                    input.value = answer;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(answer));
+                    answersContainer.appendChild(label);
+                });
+                questionContainer.appendChild(answersContainer);
+
+                container.appendChild(questionContainer);
+            });
+        }
+
+        // Function to calculate the score
+        function calculateScore() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selectedAnswer && selectedAnswer.value === q.correct) {
+                    score++;
+                }
+            });
+            return score;
+        }
+
+        // Function to handle the submit button click
+        function handleSubmit() {
+            const score = calculateScore();
+            const result = document.getElementById('result');
+            result.textContent = `Your score: ${score} / ${questions.length}`;
+        }
+
+        // Initialize quiz on page load
+        window.onload = function() {
+            generateQuiz();
+            document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+        };
+    </script>
+</body>
+</html>
